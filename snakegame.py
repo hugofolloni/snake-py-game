@@ -35,6 +35,10 @@ def message(msg, color): #define a função que printará a mensagem pós jogo
     messageWrite = font_style.render(msg, True, color)
     display.blit(messageWrite, [display_width / 6 - 25, display_height / 3])
 
+def message2(msg, color): #define a função que printará a mensagem pós jogo
+    messageWrite = font_style.render(msg, True, color)
+    display.blit(messageWrite, [display_width / 6 + 65, (display_height  / 3) + 20])
+
 def gameLoop(): #inicia o loop do jogo
     game_over = False #o jogo nao está fechado e nem na tela de fechamento
     game_close = False
@@ -56,7 +60,8 @@ def gameLoop(): #inicia o loop do jogo
 
         while game_close == True: #se o jogo estiver na tela de fechamento
             display.fill(black)
-            message("Você perdeu! Clique C para jogar de novo e Q para sair", red)
+            message("Você perdeu! Clique Q ou CIMA para jogar de novo", red)
+            message2("Pressione E ou BAIXO para sair", red)
             Score("DERROTA")
             pygame.display.update()
 
@@ -65,28 +70,28 @@ def gameLoop(): #inicia o loop do jogo
                     game_over = True
                     game_close = False
                 if event.type == pygame.KEYDOWN: #define as teclas para fechar o jogo
-                    if event.key == pygame.K_q:
-                        game_over = True
-                        game_close = False
-                    if event.key == pygame.K_c:
+                    if event.key == pygame.K_e or pygame.K_DOWN: 
+                        quit()
+                    if event.key == pygame.K_q or pygame.K_UP:
                         gameLoop()
 
-        for event in pygame.event.get(): #andar com a cobra
+        for event in pygame.event.get(): #mexe a cobra
             if event.type == pygame.QUIT:
                 game_over = True
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                     x1_change = -snake_block
                     y1_change = 0
-                elif event.key == pygame.K_RIGHT:
+                elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                     x1_change = snake_block
                     y1_change = 0
-                elif event.key == pygame.K_UP:
+                elif event.key == pygame.K_UP or event.key == pygame.K_w:
                     x1_change = 0
                     y1_change = -snake_block
-                elif event.key == pygame.K_DOWN:
+                elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
                     x1_change = 0
                     y1_change = snake_block
+
 
         if x1 >= display_width or x1 < 0 or y1 >= display_height or y1 < 0: #definir os limites da área da cobra
             game_close = True
